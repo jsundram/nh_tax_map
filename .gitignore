@@ -1,0 +1,4 @@
+.DS_Store
+.claude/
+data/22-tax-rates.xlsx
+data/tax_rates.json

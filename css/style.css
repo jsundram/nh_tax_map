@@ -1,0 +1,182 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Gill Sans", Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+
+#app {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-variant: small-caps;
+}
+
+#toolbar {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#toolbar label {
+  font-size: 13px;
+}
+
+#toolbar select {
+  padding: 5px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+#toolbar button {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#toolbar button:hover {
+  background: #eee;
+}
+
+#about {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+}
+
+#about h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+#about p {
+  margin-bottom: 10px;
+}
+
+#about h3 {
+  font-size: 0.95rem;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+#about ul {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+#about li {
+  margin-bottom: 6px;
+}
+
+#about a {
+  color: #1a6e3a;
+}
+
+#map-container {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#map-container svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#labels text {
+  cursor: default;
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
+  font-size: 12px;
+  font-family: "Gill Sans", Arial, Helvetica, sans-serif;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.15s;
+  max-width: 250px;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+.tooltip .tooltip-header {
+  padding: 6px 10px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tooltip .town-name {
+  font-weight: bold;
+  font-size: 13px;
+  font-variant: small-caps;
+}
+
+.tooltip .county-name {
+  font-size: 11px;
+  color: #888;
+  margin-top: 1px;
+}
+
+.tooltip .rate-table {
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0;
+  font-size: 12px;
+}
+
+.tooltip .rate-table td {
+  padding: 2px 10px;
+}
+
+.tooltip .rate-table td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #333;
+}
+
+.tooltip .rate-table td:first-child {
+  color: #666;
+}
+
+.tooltip .rate-table tr.total {
+  border-top: 1px solid #e0e0e0;
+}
+
+.tooltip .rate-table tr.total td {
+  padding-top: 4px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  color: #222;
+}
