@@ -27,7 +27,13 @@ async function main() {
     await render();
   });
 
-  // Reset zoom
+  // Zoom controls
+  document.getElementById("zoom-in").addEventListener("click", () => {
+    if (svgElement && svgElement.zoomIn) svgElement.zoomIn();
+  });
+  document.getElementById("zoom-out").addEventListener("click", () => {
+    if (svgElement && svgElement.zoomOut) svgElement.zoomOut();
+  });
   document.getElementById("reset-zoom").addEventListener("click", () => {
     if (svgElement && svgElement.resetZoom) svgElement.resetZoom();
   });

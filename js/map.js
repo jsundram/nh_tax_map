@@ -312,10 +312,11 @@ export function renderMap(container, taxmap, counties, water, allRates, year) {
   const taxArea = taxmap.features.filter(f => f.data.Municipality);
 
   // Replace contents without collapsing — swap in the SVG, then remove old children
+  // Preserve persistent UI elements (e.g., zoom controls)
   const svgNode = svg.node();
   container.appendChild(svgNode);
   for (const child of [...container.childNodes]) {
-    if (child !== svgNode) child.remove();
+    if (child !== svgNode && !child.id) child.remove();
   }
 
   const labelsGroup = mapGroup.append("g").attr("id", "labels");
@@ -442,9 +443,11 @@ export function renderMap(container, taxmap, counties, water, allRates, year) {
 
   svg.call(zoom);
 
-  // Expose reset function on the SVG node for the reset button
+  // Expose zoom controls on the SVG node
   const node = svg.node();
   node.resetZoom = () => svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+  node.zoomIn = () => svg.transition().duration(300).call(zoom.scaleBy, 2);
+  node.zoomOut = () => svg.transition().duration(300).call(zoom.scaleBy, 0.5);
 
   // Tooltips (on both paths and labels)
   setupTooltip(node, paths, taxmap);
