@@ -2,7 +2,7 @@
 
 An interactive choropleth map of New Hampshire property tax rates by municipality, built with [D3.js](https://d3js.org/).
 
-**[View the live map](https://jsundram.github.io/nh-property-tax/)**
+**[View the live map](https://jsundram.github.io/nh_tax_map/)**
 
 Originally developed as an [Observable notebook](https://observablehq.com/d/07351787e2402746), now a standalone static site.
 
