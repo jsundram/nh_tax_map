@@ -60,6 +60,8 @@ python3 -m http.server 8000
 
 Then open http://localhost:8000.
 
+Python scripts use [uv](https://docs.astral.sh/uv/) with [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) for dependency management — dependencies are declared in each script file, so there are no requirements files or virtual environments to manage. Install uv with `curl -LsSf https://astral.sh/uv/install.sh | sh` if you don't have it.
+
 ## Deploying to GitHub Pages
 
 Push to a GitHub repository, then enable Pages in Settings (source: main branch, root directory). The site works as-is with no build step.
