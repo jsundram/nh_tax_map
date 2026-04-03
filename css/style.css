@@ -1,110 +1,128 @@
-* {
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font-family: "Gill Sans", Arial, Helvetica, sans-serif;
-  background: #f5f5f5;
-  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #1a1a1a;
+  background: #fff;
 }
 
-#app {
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 0 10px;
+a {
+  color: #006d2c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+header {
+  padding: 2.5rem 0 1.5rem;
+  text-align: center;
 }
 
 h1 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  font-variant: small-caps;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
 }
 
+.subtitle {
+  color: #666;
+  font-size: 1.125rem;
+}
+
+/* Toolbar */
 #toolbar {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.toolbar-left,
+.toolbar-right {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 #toolbar label {
-  font-size: 13px;
+  font-size: 0.875rem;
+  color: #666;
 }
 
 #toolbar select {
-  padding: 5px 8px;
-  font-size: 13px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.875rem;
   font-family: inherit;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
   background: #fff;
   cursor: pointer;
-  margin-right: 8px;
+  margin-right: 4px;
 }
 
 #toolbar button {
-  padding: 6px 14px;
-  font-size: 13px;
+  padding: 0.4rem 0.875rem;
+  font-size: 0.875rem;
   font-family: inherit;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
   background: #fff;
   cursor: pointer;
   transition: background 0.15s;
+  color: #333;
 }
 
 #toolbar button:hover {
-  background: #eee;
+  background: #f5f5f5;
 }
 
-#about {
-  margin-top: 16px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #444;
-}
-
-#about h2 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-
-#about p {
-  margin-bottom: 10px;
-}
-
-#about h3 {
-  font-size: 0.95rem;
-  margin-top: 12px;
-  margin-bottom: 6px;
-}
-
-#about ul {
-  padding-left: 20px;
-  margin-bottom: 10px;
-}
-
-#about li {
-  margin-bottom: 6px;
-}
-
-#about a {
-  color: #1a6e3a;
-}
-
+/* Map container */
 #map-container {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  width: 100%;
   aspect-ratio: 1 / 1.5;
+  background: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-bottom: 0.5rem;
 }
 
+#map-container .loading {
+  color: #999;
+  font-size: 0.875rem;
+}
+
+#map-container svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  cursor: grab;
+}
+
+#map-container svg:active {
+  cursor: grabbing;
+}
+
+/* Zoom controls */
 #zoom-controls {
   position: absolute;
   bottom: 12px;
@@ -113,9 +131,10 @@ h1 {
   flex-direction: column;
   gap: 1px;
   background: #ccc;
-  border-radius: 4px;
+  border-radius: 0.375rem;
   overflow: hidden;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 #zoom-controls button {
@@ -135,26 +154,127 @@ h1 {
   background: #f0f0f0;
 }
 
-#map-container .loading {
+.zoom-hint {
+  text-align: center;
   color: #999;
-  font-size: 14px;
+  font-size: 0.75rem;
+  margin-bottom: 2rem;
+  display: none;
 }
 
-#map-container svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  cursor: grab;
+@media (max-width: 640px) {
+  .zoom-hint {
+    display: block;
+  }
 }
 
-#map-container svg:active {
-  cursor: grabbing;
-}
-
+/* SVG labels */
 #labels text {
   cursor: default;
 }
 
+/* Explainer cards */
+.explainer-section {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .explainer-section {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+
+.card h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.card p {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Understanding the rates */
+.rate-info {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.rate-info h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.rate-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.rate-info li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.rate-info li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #006d2c;
+  border-radius: 50%;
+}
+
+/* Tax components */
+.components {
+  margin-bottom: 2.5rem;
+}
+
+.components h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.components ul {
+  padding-left: 1.25rem;
+}
+
+.components li {
+  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid #e5e5e5;
+  padding: 2rem 0;
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* Tooltip */
 .tooltip {
   position: absolute;
   pointer-events: none;
@@ -170,6 +290,7 @@ h1 {
   max-width: 250px;
   line-height: 1.4;
   overflow: hidden;
+  z-index: 100;
 }
 
 .tooltip.visible {

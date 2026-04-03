@@ -3,84 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NH Property Tax Map</title>
+  <title>New Hampshire Property Tax Rates</title>
+  <meta name="description" content="Interactive map of property tax rates per $1,000 of assessed value, by town">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="app">
-    <h1>NH Property Tax Map</h1>
-    <div id="toolbar">
-      <label for="year-select">Year:</label>
-      <select id="year-select">
-        <option value="2025" selected>2025</option>
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-      </select>
-      <button id="download-svg">Download SVG</button>
-      <button id="download-png">Download PNG</button>
-    </div>
-    <div id="map-container">
-      <span class="loading">Loading...</span>
-      <div id="zoom-controls">
-        <button id="zoom-in" title="Zoom in">+</button>
-        <button id="zoom-out" title="Zoom out">−</button>
-        <button id="reset-zoom" title="Reset zoom">⌂</button>
+  <div class="container">
+    <header>
+      <h1>New Hampshire Property Tax Rates</h1>
+      <p class="subtitle">Tax rate per $1,000 of assessed value, by town</p>
+    </header>
+
+    <main>
+      <div id="toolbar">
+        <div class="toolbar-left">
+          <label for="year-select">Year:</label>
+          <select id="year-select">
+            <option value="2025" selected>2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <button id="download-svg">Download SVG</button>
+          <button id="download-png">Download PNG</button>
+        </div>
       </div>
-    </div>
-    <div id="about">
-      <h2>About this map</h2>
-      <p>
-        This map shows the <strong>total property tax rate</strong> for every municipality in
-        New Hampshire, broken down into four components. Hover over a town to see its
-        full breakdown.
-      </p>
-      <p>
-        Tax rates are expressed in <strong>dollars per $1,000 of assessed value</strong>.
-        A rate of $20 means a property assessed at $250,000 would owe $5,000 per year in
-        property taxes. Areas shown in gray are unorganized territories or grant lands
-        with no assessed tax rate.
-      </p>
-      <h3>The four components</h3>
-      <ul>
-        <li><strong>Municipal</strong> &mdash; funds town services such as roads, police,
-          and fire. Set by each town's budget and voted on at town meeting.</li>
-        <li><strong>County</strong> &mdash; funds county government, including the county
-          sheriff, courts, and nursing homes. Apportioned across towns within each county.</li>
-        <li><strong>State Education</strong> &mdash; the Statewide Education Property Tax
-          (SWEPT), authorized by
-          <a href="https://www.gencourt.state.nh.us/rsa/html/V/76/76-3.htm"
-             target="_blank" rel="noopener">RSA 76:3</a>.
-          The legislature sets a target amount (currently $363 million) to be raised
-          statewide. A uniform tax rate is applied to each town's equalized valuation,
-          so the effective rate per $1,000 varies by town depending on how recently
-          properties have been reassessed relative to market value.</li>
-        <li><strong>Local Education</strong> &mdash; covers school district spending
-          beyond what the state education tax and
-          <a href="https://www.education.nh.gov/who-we-are/division-of-educator-and-analytic-resources/bureau-of-education-statistics/state-adequate-education-aid"
-             target="_blank" rel="noopener">state adequacy aid</a> provide, as authorized by
-          <a href="https://www.gencourt.state.nh.us/rsa/html/V/76/76-8.htm"
-             target="_blank" rel="noopener">RSA 76:8</a>.
-          This is typically the largest component of the tax bill. It varies widely based
-          on each district's budget, enrollment, and property tax base.</li>
-      </ul>
-      <h3>Data sources</h3>
-      <p>
-        Tax rate data is published annually by the
-        <a href="https://www.revenue.nh.gov/about-dra/municipal-and-property-division/municipal-and-property-reports/municipal-and-village"
-           target="_blank" rel="noopener">NH Department of Revenue Administration</a>.
-        Municipal boundaries are from
-        <a href="https://www.granit.unh.edu/" target="_blank" rel="noopener">NH GRANIT</a>
-        at the University of New Hampshire.
-        Water body data is from the U.S. Census Bureau
-        <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
-           target="_blank" rel="noopener">TIGER/Line shapefiles</a>.
-        Source code is available on
-        <a href="https://github.com/jsundram/nh_tax_map"
-           target="_blank" rel="noopener">GitHub</a>.
-      </p>
-    </div>
+
+      <div id="map-container">
+        <span class="loading">Loading...</span>
+        <div id="zoom-controls">
+          <button id="zoom-in" title="Zoom in">+</button>
+          <button id="zoom-out" title="Zoom out">−</button>
+          <button id="reset-zoom" title="Reset zoom">⌂</button>
+        </div>
+      </div>
+      <p class="zoom-hint">Pinch to zoom &middot; tap a town for details</p>
+
+      <section class="explainer-section">
+        <div class="card">
+          <h3>Reading the map</h3>
+          <p>Darker greens indicate higher total tax rates. Areas shown in
+            gray are unorganized territories or grant lands with no assessed
+            tax rate.</p>
+        </div>
+        <div class="card">
+          <h3>Interaction</h3>
+          <p>Hover over any town to see its name, county, and full tax
+            breakdown. The rest of the county highlights automatically.
+            Scroll to zoom, drag to pan, or use the controls.</p>
+        </div>
+        <div class="card">
+          <h3>Data sources</h3>
+          <p>Tax rates from the
+            <a href="https://www.revenue.nh.gov/about-dra/municipal-and-property-division/municipal-and-property-reports/municipal-and-village"
+               target="_blank" rel="noopener">NH DRA</a>.
+            Boundaries from
+            <a href="https://www.granit.unh.edu/" target="_blank" rel="noopener">NH GRANIT</a>.
+            Water from
+            <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+               target="_blank" rel="noopener">Census TIGER</a>.</p>
+        </div>
+      </section>
+
+      <section class="rate-info">
+        <h2>Understanding the rates</h2>
+        <ul>
+          <li>Tax rates are expressed in <strong>dollars per $1,000 of assessed value</strong>.
+            A rate of $20 means a property assessed at $250,000 would owe $5,000 per year
+            in property taxes.</li>
+          <li>Each town's total rate is the sum of four components: municipal, county,
+            state education, and local education.</li>
+          <li><strong>Local education</strong> is typically the largest component, varying
+            widely based on each district's budget, enrollment, and property tax base.</li>
+        </ul>
+      </section>
+
+      <section class="components">
+        <h2>The four components</h2>
+        <ul>
+          <li><strong>Municipal</strong> &mdash; funds town services such as roads, police,
+            and fire. Set by each town's budget and voted on at town meeting.</li>
+          <li><strong>County</strong> &mdash; funds county government, including the county
+            sheriff, courts, and nursing homes. Apportioned across towns within each county.</li>
+          <li><strong>State Education</strong> &mdash; the Statewide Education Property Tax
+            (SWEPT), authorized by
+            <a href="https://www.gencourt.state.nh.us/rsa/html/V/76/76-3.htm"
+               target="_blank" rel="noopener">RSA 76:3</a>.
+            The legislature sets a target amount (currently $363 million) to be raised
+            statewide. A uniform tax rate is applied to each town's equalized valuation,
+            so the effective rate per $1,000 varies by town depending on how recently
+            properties have been reassessed relative to market value.</li>
+          <li><strong>Local Education</strong> &mdash; covers school district spending
+            beyond what the state education tax and
+            <a href="https://www.education.nh.gov/who-we-are/division-of-educator-and-analytic-resources/bureau-of-education-statistics/state-adequate-education-aid"
+               target="_blank" rel="noopener">state adequacy aid</a> provide, as authorized by
+            <a href="https://www.gencourt.state.nh.us/rsa/html/V/76/76-8.htm"
+               target="_blank" rel="noopener">RSA 76:8</a>.
+            This is typically the largest component of the tax bill. It varies widely based
+            on each district's budget, enrollment, and property tax base.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built by <a href="https://github.com/jsundram">Jason Sundram</a> &middot;
+        <a href="https://github.com/jsundram/nh_tax_map">View source</a></p>
+    </footer>
   </div>
+
   <div id="tooltip" class="tooltip"></div>
 
   <script type="importmap">
