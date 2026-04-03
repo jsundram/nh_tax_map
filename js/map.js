@@ -204,8 +204,6 @@ function findBestPlacementWithRotation(ring, lineLensAtRef, refSize) {
 }
 
 export function renderMap(container, taxmap, counties, water, allRates, year) {
-  container.innerHTML = "";
-
   const containerWidth = container.clientWidth || 600;
   const mapWidth = containerWidth;
   const mapHeight = 1.5 * mapWidth;
@@ -313,7 +311,12 @@ export function renderMap(container, taxmap, counties, water, allRates, year) {
   // Labels
   const taxArea = taxmap.features.filter(f => f.data.Municipality);
 
-  container.appendChild(svg.node());
+  // Replace contents without collapsing — swap in the SVG, then remove old children
+  const svgNode = svg.node();
+  container.appendChild(svgNode);
+  for (const child of [...container.childNodes]) {
+    if (child !== svgNode) child.remove();
+  }
 
   const labelsGroup = mapGroup.append("g").attr("id", "labels");
   const REF_SIZE = 10;
