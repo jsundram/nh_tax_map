@@ -18,6 +18,38 @@ Originally developed as an [Observable notebook](https://observablehq.com/d/0735
 - Download as SVG or PNG
 - Adaptive label colors for readability on dark backgrounds
 
+## How it works
+
+### Architecture
+
+The site is a single-page application with no build step. ES modules load D3.js from a CDN via an [import map](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap), so there are no bundlers, transpilers, or `node_modules` involved.
+
+**Data flow:**
+
+1. On page load, `data.js` fetches all data files in parallel: the town boundary GeoJSON, county boundaries, water bodies, and tax rate JSON for every available year. GeoJSON files are cached since they don't change between years.
+2. Tax rate records are merged into the GeoJSON features by matching municipality names. A normalization layer handles name discrepancies between data sources (e.g., "Erving's Grant (U)" → "Ervings Location").
+3. `map.js` takes the merged GeoJSON and renders the SVG: projecting coordinates with `d3.geoIdentity().reflectY(true).fitExtent(...)`, drawing town polygons, county boundaries, water bodies, and computing label placements.
+4. `tooltip.js` wires up mouse events on both town paths and text labels, with a lookup index from town names to features and path elements for county highlighting.
+5. When the user changes the year, only the tax rate JSON is swapped. The GeoJSON is re-merged with the new rates via `structuredClone` and the SVG is re-rendered.
+
+**Dependencies:** The only runtime dependency is [D3.js v7](https://d3js.org/), loaded as an ES module from CDN. Python scripts use [uv](https://docs.astral.sh/uv/) with inline script metadata for dependency management (openpyxl, geopandas, shapely) — no virtual environments or requirements files needed.
+
+### Label placement algorithm
+
+Fitting readable labels inside irregularly-shaped polygons is a hard problem. Common approaches like centroid placement or the [pole of inaccessibility](https://github.com/mapbox/polylabel) find a single "best point," but don't account for the shape of the text — a long town name needs horizontal space, not just distance from edges. This project uses a custom algorithm that directly optimizes for the largest font size that fits.
+
+The algorithm works in four stages:
+
+**Stage 1: Line-split variants.** For multi-word names, the algorithm generates all possible line-break variants. "Second College" can be rendered as one line or split into "Second" / "College". Each variant produces an array of measured text widths (at a reference font size) using SVG `getComputedTextLength()`. All variants are tried and the one achieving the largest font size wins.
+
+**Stage 2: Position search.** For each variant, `findBestPlacement()` scans 30 evenly-spaced horizontal scanlines across the polygon's vertical extent. At each y-coordinate, it computes ray-casting intersections with the polygon boundary to find horizontal segments that are inside the polygon. For each segment, it centers the text horizontally and runs a font-size fit test. The position achieving the largest font size wins, with ties broken by distance to the polygon's centroid (preferring more centered labels).
+
+**Stage 3: Font size binary search.** At each candidate position, `fitFontSize()` uses binary search (converging to 0.25px precision) to find the largest font size where the text block fits. The fit test (`textFitsInPolygon()`) checks whether the full text bounding box — accounting for per-line widths and line height — is contained within the polygon. It does this by sampling three vertical positions per line (at 10%, 50%, and 90% of line height) and verifying via ray-casting that the horizontal span of each line falls within a single interior segment of the polygon at each sample point.
+
+**Stage 4: Rotation search.** If the horizontal placement didn't reach the maximum font size, the algorithm tries rotations in 10° steps from -40° to +40°. For each angle, it rotates the polygon (not the text), runs the full position+font-size search on the rotated polygon, then maps the result back to the original coordinate space. A rotation is only accepted if it improves the font size by more than 0.5px (to avoid unnecessary rotation when horizontal is nearly as good). If a rotation helps, ±5° refinement is tried around the best angle.
+
+The net effect: labels are as large as possible, centered when there's room, rotated only when it meaningfully helps, and split across lines when that allows a larger font size. Labels that can't fit at the minimum font size (4px) are omitted — these are genuinely tiny polygons where zoom-and-hover is the better UX.
+
 ## Running locally
 
 No build step required. Serve the files over HTTP (ES modules require it):
