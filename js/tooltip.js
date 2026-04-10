@@ -3,7 +3,7 @@
  */
 import * as d3 from "d3";
 
-const fmt = v => v != null ? `$${v.toFixed(2)}` : "—";
+const fmt = v => v != null ? `${(v / 10).toFixed(2)}%` : "—";
 
 function showTooltip(tooltip, d) {
   const data = d.data || {};

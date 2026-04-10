@@ -240,8 +240,8 @@ export function renderMap(container, taxmap, counties, water, allRates, year) {
 
   // Legend
   const legend = Legend(clr, {
-    title: "Tax Rate ($)",
-    tickFormat: "$.02f",
+    title: "Tax Rate (% of assessed value)",
+    tickFormat: v => { const pct = v / 10; return pct % 1 === 0 ? pct + "%" : pct.toFixed(1) + "%"; },
     tickValues: [0, 15, 20, 25, 40],
   });
 
