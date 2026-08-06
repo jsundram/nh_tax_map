@@ -4,7 +4,9 @@ An interactive choropleth map of New Hampshire property tax rates by municipalit
 
 **[View the live map](https://jsundram.github.io/nh_tax_map/)**
 
-Originally developed as an [Observable notebook](https://observablehq.com/d/07351787e2402746), now a standalone static site.
+Originally developed as an [Observable notebook](https://observablehq.com/d/07351787e2402746), now a standalone static site. 
+
+Inspired by [this Reddit post](https://www.reddit.com/r/newhampshire/s/xDFyomMPq4).
 
 ## Features
 
